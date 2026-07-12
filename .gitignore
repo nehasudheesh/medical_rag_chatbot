@@ -1,0 +1,19 @@
+# Virtual Environment
+venv/
+
+# Environment Variables
+.env
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Jupyter Notebook Cache
+.ipynb_checkpoints/
+
+# VS Code Settings (optional)
+.vscode/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
