@@ -1,22 +1,37 @@
 import pandas as pd
 
+# Load datasets
 description_df = pd.read_csv("data/symptom_Description.csv")
 precaution_df = pd.read_csv("data/symptom_precaution.csv")
 
-print("===== Disease Description Dataset =====")
-print(description_df.info())
+# Merge datasets
+knowledge_base = pd.merge(
+    description_df,
+    precaution_df,
+    on="Disease",
+    how="inner"
+)
 
-print("\n")
+# Replace missing values
+knowledge_base.fillna("Not Available", inplace=True)
 
-print("===== Precaution Dataset =====")
-print(precaution_df.info())
+# Create a single text column
+knowledge_base["Knowledge"] = (
+    "Disease: " + knowledge_base["Disease"] +
+    ". Description: " + knowledge_base["Description"] +
+    ". Precautions: " +
+    knowledge_base["Precaution_1"] + ", " +
+    knowledge_base["Precaution_2"] + ", " +
+    knowledge_base["Precaution_3"] + ", " +
+    knowledge_base["Precaution_4"]
+)
 
-print("\n")
+# Save the processed knowledge base
+knowledge_base.to_csv(
+    "data/medical_knowledge_base.csv",
+    index=False
+)
 
-print("Missing values in Description Dataset")
-print(description_df.isnull().sum())
+print("Knowledge base created successfully!\n")
 
-print("\n")
-
-print("Missing values in Precaution Dataset")
-print(precaution_df.isnull().sum())
+print(knowledge_base[["Disease", "Knowledge"]].head())
