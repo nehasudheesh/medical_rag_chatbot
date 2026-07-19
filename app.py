@@ -116,7 +116,7 @@ if question:
     # Generate Answer
     start = time.time()
 
-    with st.spinner("🔍 Searching medical knowledge and generating answer..."):
+    with st.spinner("🤖 Gemini is generating the answer..."):
 
         context = retrieve_context(question)
 
@@ -131,11 +131,13 @@ if question:
 
         st.markdown(answer)
 
+        st.caption("Generated using Gemini 2.5 Flash")
+
         st.caption(f"⏱ Response generated in {end-start:.2f} seconds")
 
         with st.expander("📚 View Retrieved Medical Knowledge"):
 
-            st.write(context)
+            st.code(context)
 
     st.session_state.messages.append(
         {
