@@ -1,46 +1,26 @@
-import os
-from dotenv import load_dotenv
-from google import genai
+from src.retriever import retrieve_context
+from src.llm import generate_answer
 
-from retriever import retrieve_context
 
-# Load environment variables
-load_dotenv()
+def ask_rag(question):
+    """
+    Complete RAG Pipeline:
+    1. Retrieve context
+    2. Generate answer using Gemini
+    """
 
-api_key = os.getenv("GEMINI_API_KEY")
+    context = retrieve_context(question)
 
-if not api_key:
-    raise ValueError("GEMINI_API_KEY not found.")
+    answer = generate_answer(context, question)
 
-# Initialize Gemini client
-client = genai.Client(api_key=api_key)
+    return answer
 
-# Ask user for a question
-question = input("Ask your medical question: ")
 
-# Retrieve relevant context
-context = retrieve_context(question)
+if __name__ == "__main__":
 
-# Build the prompt
-prompt = f"""
-You are a helpful medical assistant.
+    question = input("Ask a medical question: ")
 
-Answer the user's question ONLY using the information provided below.
+    answer = ask_rag(question)
 
-Context:
-{context}
-
-Question:
-{question}
-
-Answer:
-"""
-
-# Generate response
-response = client.models.generate_content(
-    model="gemini-3.5-flash",
-    contents=prompt
-)
-
-print("\nAI Response:\n")
-print(response.text)
+    print("\nAnswer:\n")
+    print(answer)
