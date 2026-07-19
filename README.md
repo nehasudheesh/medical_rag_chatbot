@@ -31,6 +31,3 @@ The system retrieves relevant information from the dataset and uses a Large Lang
 
 ---
 
-## Project Status
-
-🟢 Day 1 – Environment Setup
